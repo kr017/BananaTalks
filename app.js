@@ -8,7 +8,17 @@ var btnTranslate = document.querySelector("#btn-translate");
 var inputTextarea= document.querySelector("#input_textarea");
 var outputDiv=document.querySelector("#outputDiv");
 
-btnTranslate.addEventListener("click",handleInputTextareaChange);
+
+var apiUrl="https://api.funtranslations.com/translate/minion.json";
+//"https://lessonfourapi.tanaypratap.repl.co/translate/yoda.json";
+
+function getTranslationURL(text) {
+    
+    return apiUrl + "?"+ "text="+ text
+}
+
+
+btnTranslate.addEventListener("click",handleTranslateClick);
 
 // function handleTranslateButtonClick() {
     
@@ -17,10 +27,25 @@ btnTranslate.addEventListener("click",handleInputTextareaChange);
 
 // inputTextarea.addEventListener("change",handleInputTextareaChange)
 
-
-function handleInputTextareaChange() {
-    alert("contents changed to "+inputTextarea.value);
+function errorHandler(err) {
+    if(err.code==429)
+    alert("sorry api limit exceeded"+
+    "please try after some time ")
 }
 
 
-outputDiv.innerHTML="Kiran"
+function handleTranslateClick() {
+
+    var input=inputTextarea.value;
+    fetch(getTranslationURL(input))
+    .then(response=>response.json())
+    .then(res=>{
+        console.log(res);
+        var translatedText=res.contents.translated;
+        outputDiv.innerHTML=translatedText;
+
+    })
+    .catch(errorHandler);
+}
+
+
