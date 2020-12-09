@@ -28,9 +28,9 @@ btnTranslate.addEventListener("click",handleTranslateClick);
 // inputTextarea.addEventListener("change",handleInputTextareaChange)
 
 function errorHandler(err) {
-    if(err.code==429)
-    alert("sorry api limit exceeded"+
-    "please try after some time ")
+   
+  
+    alert("something went wrong");
 }
 
 
@@ -40,9 +40,13 @@ function handleTranslateClick() {
     fetch(getTranslationURL(input))
     .then(response=>response.json())
     .then(res=>{
+        
         console.log(res);
-        var translatedText=res.contents.translated;
+        
+            var translatedText=res.contents.translated;
         outputDiv.innerHTML=translatedText;
+        
+        
 
     })
     .catch(errorHandler);
